@@ -11,7 +11,6 @@ O projeto foi construído utilizando o ecossistema moderno do React:
 * **React** — Biblioteca core para interface.
 * **Vite** — Ferramenta de build de alta performance.
 * **CSS Modules** — Estilização isolada para evitar conflitos de escopo.
-* **Lucide React** — Conjunto de ícones leves (sugestão para os ícones).
 * **ESLint** — Garantia de qualidade e padronização do código.
 
 ---
