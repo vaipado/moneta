@@ -1,0 +1,36 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: -5rem; /* faz os cards "entrarem" no Header roxo */
+}
+
+.container div {
+  background: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 0.25rem;
+  color: #363f5f;
+}
+
+.container div header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container div strong {
+  display: block;
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3rem;
+}
+
+.container .highlightBackground {
+  background: #33cc95;
+  color: #fff;
+}
+
+.withdraw {
+  color: #e52e4d;
+}
