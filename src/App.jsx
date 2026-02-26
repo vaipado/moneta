@@ -5,11 +5,15 @@ import { Summary } from './components/Summary';
 import { TransactionsTable } from './components/TransactionsTable';
 import './index.css';
 
-// Configuração obrigatória para acessibilidade, basicamente, quando o modal abrir, os leitores de tela vão ignorar o restante do conteúdo da página
 Modal.setAppElement('#root');
 
 export function App() {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [value, setValue] = useState(0);
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('deposit'); // 'deposit' para entrada, 'withdraw' para saída
+  const [transactions, setTransactions] = useState([]);
 
   function handleOpenNewTransactionModal() {
     setIsNewTransactionModalOpen(true);
@@ -19,14 +23,36 @@ export function App() {
     setIsNewTransactionModalOpen(false);
   }
 
+  function handleCreateNewTransaction(event) {
+    event.preventDefault();
+
+    const newTransaction = {
+      id: Math.random(),
+      title,
+      value,
+      category,
+      type,
+      createdAt: new Date().toLocaleDateString('pt-BR')
+    };
+
+    setTransactions([...transactions, newTransaction]);
+
+    // Limpa os campos e fecha o modal após o "cadastro"
+    setTitle('');
+    setValue(0);
+    setCategory('');
+    setType('deposit');
+    handleCloseNewTransactionModal();
+  }
+
   return (
     <>
-      {/* a função de abrir é passada para o Header */}
+      {}
       <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
 
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
-        <Summary />
-        <TransactionsTable />
+        <Summary transactions={transactions} />
+        <TransactionsTable transactions={transactions} />
       </main>
 
       {/* Estrutura do Modal */}
@@ -44,22 +70,44 @@ export function App() {
           X
         </button>
 
-        <form className="modal-form">
+        <form className="modal-form" onSubmit={handleCreateNewTransaction}> { }
           <h2>Cadastrar transação</h2>
 
-          <input placeholder="Título" />
-          <input type="number" placeholder="Valor" />
+          <input
+            placeholder="Título"
+            value={title}
+            onChange={event => setTitle(event.target.value)}
+          />
+
+          <input
+            type="number"
+            placeholder="Valor"
+            value={value}
+            onChange={event => setValue(Number(event.target.value))}
+          />
 
           <div className="transaction-type-container">
-            <button type="button">
+            <button
+              type="button"
+              onClick={() => setType('deposit')}
+              className={type === 'deposit' ? 'active-deposit' : ''}
+            >
               Entrada
             </button>
-            <button type="button">
+            <button
+              type="button"
+              onClick={() => setType('withdraw')}
+              className={type === 'withdraw' ? 'active-withdraw' : ''}
+            >
               Saída
             </button>
           </div>
 
-          <input placeholder="Categoria" />
+          <input
+            placeholder="Categoria"
+            value={category}
+            onChange={event => setCategory(event.target.value)}
+          />
 
           <button type="submit">
             Cadastrar

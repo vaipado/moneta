@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-export function TransactionsTable() {
+export function TransactionsTable({ transactions }) {
   return (
     <div className={styles.container}>
       <table>
@@ -14,18 +14,20 @@ export function TransactionsTable() {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Desenvolvimento de Website</td>
-            <td className={styles.deposit}>R$ 12.000,00</td>
-            <td>Venda</td>
-            <td>20/02/2026</td>
-          </tr>
-          <tr>
-            <td>Aluguel</td>
-            <td className={styles.withdraw}>- R$ 1.100,00</td>
-            <td>Casa</td>
-            <td>10/02/2026</td>
-          </tr>
+          {transactions.map(transaction => (
+            <tr key={transaction.id}>
+              <td>{transaction.title}</td>
+              <td className={transaction.type === 'deposit' ? styles.deposit : styles.withdraw}>
+                {transaction.type === 'withdraw' && '- '}
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                }).format(transaction.value)}
+              </td>
+              <td>{transaction.category}</td>
+              <td>{transaction.createdAt}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

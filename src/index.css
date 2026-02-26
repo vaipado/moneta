@@ -108,7 +108,7 @@ body {
   width: 100%;
   padding: 0 1.5rem;
   height: 4rem;
-  background: #33cc95; /* Verde Moneta */
+  background: #33cc95; 
   color: #fff;
   border-radius: 0.25rem;
   border: 0;
@@ -121,4 +121,16 @@ body {
 
 .modal-form button[type="submit"]:hover {
   filter: brightness(0.9);
+}
+
+
+
+.transaction-type-container button.active-deposit {
+  background: rgba(51, 204, 149, 0.1); 
+  border-color: #33cc95;
+}
+
+.transaction-type-container button.active-withdraw {
+  background: rgba(229, 46, 77, 0.1); 
+  border-color: #e52e4d;
 }
