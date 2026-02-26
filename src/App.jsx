@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { Header } from './components/Header';
 import { Summary } from './components/Summary';
@@ -13,7 +13,20 @@ export function App() {
   const [value, setValue] = useState(0);
   const [category, setCategory] = useState('');
   const [type, setType] = useState('deposit'); // 'deposit' para entrada, 'withdraw' para saída
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState(() => {
+    // Pega os dados salvos
+    const storageTransactions = localStorage.getItem('@moneta:transactions');
+
+    if (storageTransactions) {
+      // Se existir algo, transformamos de volta em Objeto/Array
+      return JSON.parse(storageTransactions);
+    }
+    // Se não existir nada, começa com array vazio
+    return [];
+  });
+
+  // Sempre que 'transactions' mudar, salvamos no localStorage
+  useEffect(() => { localStorage.setItem('@moneta:transactions', JSON.stringify(transactions)); }, [transactions]);
 
   function handleOpenNewTransactionModal() {
     setIsNewTransactionModalOpen(true);
@@ -47,7 +60,7 @@ export function App() {
 
   return (
     <>
-      {}
+      { }
       <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
 
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
