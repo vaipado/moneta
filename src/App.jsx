@@ -36,6 +36,14 @@ export function App() {
     setIsNewTransactionModalOpen(false);
   }
 
+  function handleDeleteTransaction(id) {
+    // Criamos uma nova lista filtrando (removendo) o item com o ID recebido
+    const updatedTransactions = transactions.filter(transaction => transaction.id !== id);
+
+    // Atualizamos o estado com a nova lista
+    setTransactions(updatedTransactions);
+  }
+
   function handleCreateNewTransaction(event) {
     event.preventDefault();
 
@@ -65,7 +73,10 @@ export function App() {
 
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
         <Summary transactions={transactions} />
-        <TransactionsTable transactions={transactions} />
+        <TransactionsTable
+          transactions={transactions}
+          onDeleteTransaction={handleDeleteTransaction}
+        />
       </main>
 
       {/* Estrutura do Modal */}
