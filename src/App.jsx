@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { Header } from './components/Header';
 import { Summary } from './components/Summary';
 import { TransactionsTable } from './components/TransactionsTable';
+import { EmptyState } from './components/EmptyState';
 import './index.css';
 
 Modal.setAppElement('#root');
@@ -73,10 +74,10 @@ export function App() {
 
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
         <Summary transactions={transactions} />
-        <TransactionsTable
-          transactions={transactions}
-          onDeleteTransaction={handleDeleteTransaction}
-        />
+        {
+          transactions.length > 0 ? (<TransactionsTable transactions={transactions} onDeleteTransaction={handleDeleteTransaction} />)
+            : (<EmptyState />)
+        }
       </main>
 
       {/* Estrutura do Modal */}
