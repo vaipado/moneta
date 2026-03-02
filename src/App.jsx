@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FiArrowUpCircle, FiArrowDownCircle } from 'react-icons/fi';
 import Modal from 'react-modal';
 import { Header } from './components/Header';
 import { Summary } from './components/Summary';
@@ -11,7 +12,7 @@ Modal.setAppElement('#root');
 export function App() {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
   const [title, setTitle] = useState('');
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('deposit'); // 'deposit' para entrada, 'withdraw' para saída
   const [transactions, setTransactions] = useState(() => {
@@ -35,6 +36,11 @@ export function App() {
 
   function handleCloseNewTransactionModal() {
     setIsNewTransactionModalOpen(false);
+
+    setTitle('');
+    setValue('');
+    setCategory('');
+    setType('deposit');
   }
 
   function handleDeleteTransaction(id) {
@@ -48,24 +54,27 @@ export function App() {
   function handleCreateNewTransaction(event) {
     event.preventDefault();
 
+    const numericValue = Number(value);
+
+    if (title.trim() === '' || numericValue <= 0) {
+      alert("Por favor, preencha um título e um valor válido!");
+      return;
+    }
+
     const newTransaction = {
       id: Math.random(),
       title,
-      value,
+      value: Number(value),
       category,
       type,
       createdAt: new Date().toLocaleDateString('pt-BR')
     };
 
     setTransactions([...transactions, newTransaction]);
-
-    // Limpa os campos e fecha o modal após o "cadastro"
-    setTitle('');
-    setValue(0);
-    setCategory('');
-    setType('deposit');
     handleCloseNewTransactionModal();
   }
+
+const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() !== '';
 
   return (
     <>
@@ -108,7 +117,7 @@ export function App() {
             type="number"
             placeholder="Valor"
             value={value}
-            onChange={event => setValue(Number(event.target.value))}
+            onChange={event => setValue(event.target.value)}
           />
 
           <div className="transaction-type-container">
@@ -117,14 +126,17 @@ export function App() {
               onClick={() => setType('deposit')}
               className={type === 'deposit' ? 'active-deposit' : ''}
             >
-              Entrada
+              <FiArrowUpCircle size={24} color="#33cc95" />
+              <span>Entrada</span>
             </button>
+
             <button
               type="button"
               onClick={() => setType('withdraw')}
               className={type === 'withdraw' ? 'active-withdraw' : ''}
             >
-              Saída
+              <FiArrowDownCircle size={24} color="#e52e4d" />
+              <span>Saída</span>
             </button>
           </div>
 
@@ -134,7 +146,11 @@ export function App() {
             onChange={event => setCategory(event.target.value)}
           />
 
-          <button type="submit">
+          <button
+            type="submit"
+            disabled={!isFormValid}
+            className="submit-button"
+          >
             Cadastrar
           </button>
         </form>

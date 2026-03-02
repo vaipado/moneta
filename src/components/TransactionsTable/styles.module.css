@@ -34,3 +34,23 @@ td:first-child {
 .withdraw {
   color: #e52e4d;
 }
+
+.deleteButton {
+  background: transparent;
+  border: 0;
+  color: #969cb3;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover {
+  color: #e52e4d;
+  transform: scale(1.1);
+}
+
+td:last-child {
+  width: 50px;
+}

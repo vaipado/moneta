@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+import { FiTrash } from 'react-icons/fi';
 
 export function TransactionsTable({ transactions, onDeleteTransaction }) {
   return (
@@ -28,12 +29,12 @@ export function TransactionsTable({ transactions, onDeleteTransaction }) {
               <td>{transaction.category}</td>
               <td>{transaction.createdAt}</td>
               <td>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => onDeleteTransaction(transaction.id)}
-                  style={{ background: 'transparent', border: 0, color: '#e52e4d', cursor: 'pointer', fontWeight: 'bold' }}
-                >
-                  Excluir
+                  title="Excluir transação"
+                  className={styles.deleteButton}>
+                  <FiTrash size={20} />
                 </button>
               </td>
             </tr>

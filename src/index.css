@@ -13,15 +13,13 @@ body {
 }
 
 /* Estilos para o Modal */
-
 .react-modal-overlay {
-  background: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +34,6 @@ body {
   border-radius: 0.25rem;
 }
 
-/* Botão "X" de fechar */
 .react-modal-close {
   position: absolute;
   right: 1.5rem;
@@ -95,12 +92,30 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem; /* Espaço para o ícone não grudar no texto */
   transition: border-color 0.2s;
   cursor: pointer;
 }
 
+.transaction-type-container button span {
+  display: inline-block;
+  font-size: 1rem;
+  color: #363f5f;
+}
+
 .transaction-type-container button:hover {
   border-color: #aaa;
+}
+
+/* Estados Ativos com cores suaves */
+.transaction-type-container button.active-deposit {
+  background: rgba(51, 204, 149, 0.1); 
+  border-color: #33cc95;
+}
+
+.transaction-type-container button.active-withdraw {
+  background: rgba(229, 46, 77, 0.1); 
+  border-color: #e52e4d;
 }
 
 /* Botão de Submissão */
@@ -122,15 +137,47 @@ body {
 .modal-form button[type="submit"]:hover {
   filter: brightness(0.9);
 }
-
-
-
-.transaction-type-container button.active-deposit {
-  background: rgba(51, 204, 149, 0.1); 
-  border-color: #33cc95;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.transaction-type-container button.active-withdraw {
-  background: rgba(229, 46, 77, 0.1); 
-  border-color: #e52e4d;
+/* Remove as setinhas para o Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* 1. Quando o formulário tem um foco interno, 
+      todos os inputs e o container de botões ficam mais claros */
+.modal-form:focus-within input,
+.modal-form:focus-within .transaction-type-container {
+  opacity: 0.4;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* 2. O elemento específico que recebeu o clique/foco 
+      volta para a opacidade total */
+.modal-form input:focus,
+.modal-form .transaction-type-container:focus-within {
+  opacity: 1;
+}
+
+.modal-form input:focus {
+  opacity: 1;
+  outline: 0;
+  border-color: #b4b4b4;
+  box-shadow: 0 0 0 4px rgba(174, 174, 174, 0.15); 
+  transition: all 0.2s ease-in-out;
+}
+
+.transaction-type-container button:focus {
+  outline: 0;
+  box-shadow: 0 0 0 4px rgba(150, 156, 179, 0.1);
+}
+
+.modal-form button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1); /* Deixa o botão cinza */
 }
