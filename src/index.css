@@ -1,4 +1,4 @@
-/* Global reset */
+/* --- Global Reset & Base --- */
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +12,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Estilos para o Modal */
+/* --- Modal Layout --- */
 .react-modal-overlay {
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,42 +38,50 @@ body {
   border: 0;
   background: transparent;
   cursor: pointer;
-  transition: filter 0.2s;
-  font-weight: bold;
   color: #969cb3;
+  font-weight: bold;
+  transition: filter 0.2s;
 }
 
 .react-modal-close:hover {
   filter: brightness(0.8);
 }
 
-/* Estilos do Formulário */
+/* --- Form Components --- */
 .modal-form h2 {
   color: #363f5f;
   font-size: 1.5rem;
   margin-bottom: 2rem;
 }
 
-.modal-form input {
+.modal-form input,
+.modal-form select {
   width: 100%;
   padding: 0 1.5rem;
   height: 4rem;
   border-radius: 0.25rem;
   border: 1px solid #d7d7d7;
   background: #e7e9ee;
-  font-weight: 400;
   font-size: 1rem;
+  font-weight: 400;
+  color: #363f5f;
 }
 
 .modal-form input::placeholder {
   color: #969cb3;
 }
 
-.modal-form input + input {
+.modal-form input + input,
+.modal-form select {
   margin-top: 1rem;
 }
 
-/* Container dos botões de Entrada/Saída */
+.modal-form select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* --- Transaction Type Buttons --- */
 .transaction-type-container {
   margin: 1rem 0;
   display: grid;
@@ -92,13 +97,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; /* Espaço para o ícone não grudar no texto */
-  transition: border-color 0.2s;
+  gap: 0.5rem;
   cursor: pointer;
+  transition: border-color 0.2s;
 }
 
 .transaction-type-container button span {
-  display: inline-block;
   font-size: 1rem;
   color: #363f5f;
 }
@@ -107,7 +111,7 @@ body {
   border-color: #aaa;
 }
 
-/* Estados Ativos com cores suaves */
+/* Active States */
 .transaction-type-container button.active-deposit {
   background: rgba(51, 204, 149, 0.1); 
   border-color: #33cc95;
@@ -118,66 +122,95 @@ body {
   border-color: #e52e4d;
 }
 
-/* Botão de Submissão */
+/* --- Search Component --- */
+.search-container {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.search-container input {
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #d7d7d7;
+  background: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.search-not-found {
+  margin-top: 4rem;
+  text-align: center;
+  color: #969cb3;
+}
+
+.search-not-found strong {
+  color: #363f5f;
+}
+
+/* --- Submit Button --- */
 .modal-form button[type="submit"] {
   width: 100%;
-  padding: 0 1.5rem;
   height: 4rem;
+  padding: 0 1.5rem;
+  margin-top: 1.5rem;
   background: #33cc95; 
   color: #fff;
   border-radius: 0.25rem;
   border: 0;
   font-size: 1rem;
-  margin-top: 1.5rem;
   font-weight: 600;
-  transition: filter 0.2s;
   cursor: pointer;
+  transition: filter 0.2s;
 }
 
 .modal-form button[type="submit"]:hover {
   filter: brightness(0.9);
 }
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+.modal-form button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
 }
 
-/* Remove as setinhas para o Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-/* 1. Quando o formulário tem um foco interno, 
-      todos os inputs e o container de botões ficam mais claros */
+/* --- Focus States & Helpers --- */
 .modal-form:focus-within input,
 .modal-form:focus-within .transaction-type-container {
   opacity: 0.4;
   transition: opacity 0.2s ease-in-out;
 }
 
-/* 2. O elemento específico que recebeu o clique/foco 
-      volta para a opacidade total */
 .modal-form input:focus,
+.modal-form select:focus,
 .modal-form .transaction-type-container:focus-within {
   opacity: 1;
+  outline: 0;
 }
 
-.modal-form input:focus {
-  opacity: 1;
-  outline: 0;
+.modal-form input:focus,
+.search-container input:focus {
   border-color: #b4b4b4;
   box-shadow: 0 0 0 4px rgba(174, 174, 174, 0.15); 
-  transition: all 0.2s ease-in-out;
+}
+
+.modal-form select:focus {
+  border-color: #33cc95;
+  box-shadow: 0 0 0 4px rgba(51, 204, 149, 0.15);
 }
 
 .transaction-type-container button:focus {
-  outline: 0;
   box-shadow: 0 0 0 4px rgba(150, 156, 179, 0.1);
 }
 
-.modal-form button[type="submit"]:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(1); /* Deixa o botão cinza */
+/* Hide Spin Buttons (Chrome/Safari/Firefox) */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }

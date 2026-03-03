@@ -13,22 +13,22 @@ export function App() {
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [value, setValue] = useState('');
-  const [category, setCategory] = useState('');
-  const [type, setType] = useState('deposit'); // 'deposit' para entrada, 'withdraw' para saída
+  const [category, setCategory] = useState('Alimentação');
+  const [type, setType] = useState('deposit');
+  const [search, setSearch] = useState('');
+  
   const [transactions, setTransactions] = useState(() => {
-    // Pega os dados salvos
     const storageTransactions = localStorage.getItem('@moneta:transactions');
 
     if (storageTransactions) {
-      // Se existir algo, transformamos de volta em Objeto/Array
       return JSON.parse(storageTransactions);
     }
-    // Se não existir nada, começa com array vazio
     return [];
   });
 
-  // Sempre que 'transactions' mudar, salvamos no localStorage
-  useEffect(() => { localStorage.setItem('@moneta:transactions', JSON.stringify(transactions)); }, [transactions]);
+  useEffect(() => { 
+    localStorage.setItem('@moneta:transactions', JSON.stringify(transactions)); 
+  }, [transactions]);
 
   function handleOpenNewTransactionModal() {
     setIsNewTransactionModalOpen(true);
@@ -36,18 +36,14 @@ export function App() {
 
   function handleCloseNewTransactionModal() {
     setIsNewTransactionModalOpen(false);
-
     setTitle('');
     setValue('');
-    setCategory('');
+    setCategory('Alimentação');
     setType('deposit');
   }
 
   function handleDeleteTransaction(id) {
-    // Criamos uma nova lista filtrando (removendo) o item com o ID recebido
     const updatedTransactions = transactions.filter(transaction => transaction.id !== id);
-
-    // Atualizamos o estado com a nova lista
     setTransactions(updatedTransactions);
   }
 
@@ -64,7 +60,7 @@ export function App() {
     const newTransaction = {
       id: Math.random(),
       title,
-      value: Number(value),
+      value: numericValue,
       category,
       type,
       createdAt: new Date().toLocaleDateString('pt-BR')
@@ -74,37 +70,57 @@ export function App() {
     handleCloseNewTransactionModal();
   }
 
-const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() !== '';
+  const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() !== '';
+
+  const filteredTransactions = transactions.filter(transaction =>
+    transaction.title.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <>
-      { }
       <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
 
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
         <Summary transactions={transactions} />
-        {
-          transactions.length > 0 ? (<TransactionsTable transactions={transactions} onDeleteTransaction={handleDeleteTransaction} />)
-            : (<EmptyState />)
-        }
+
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar por título..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {transactions.length === 0 ? (
+          <EmptyState /> 
+        ) : filteredTransactions.length > 0 ? (
+          <TransactionsTable
+            transactions={filteredTransactions}
+            onDeleteTransaction={handleDeleteTransaction}
+          />
+        ) : (
+          <div className="search-not-found">
+            <p>Nenhuma transação encontrada com o termo <strong>"{search}"</strong>.</p>
+          </div>
+        )}
       </main>
 
-      {/* Estrutura do Modal */}
       <Modal
         isOpen={isNewTransactionModalOpen}
         onRequestClose={handleCloseNewTransactionModal}
-        overlayClassName="react-modal-overlay" //
-        className="react-modal-content" //
+        overlayClassName="react-modal-overlay"
+        className="react-modal-content"
       >
         <button
           type="button"
           onClick={handleCloseNewTransactionModal}
-          className="react-modal-close" //
+          className="react-modal-close"
         >
           X
         </button>
 
-        <form className="modal-form" onSubmit={handleCreateNewTransaction}> { }
+        <form className="modal-form" onSubmit={handleCreateNewTransaction}>
           <h2>Cadastrar transação</h2>
 
           <input
@@ -140,11 +156,19 @@ const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() 
             </button>
           </div>
 
-          <input
-            placeholder="Categoria"
+          <select
             value={category}
             onChange={event => setCategory(event.target.value)}
-          />
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+            <option value="Educação">Educação</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Moradia">Moradia</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Outros">Outros</option>
+          </select>
 
           <button
             type="submit"

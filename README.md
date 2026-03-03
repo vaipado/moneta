@@ -20,7 +20,7 @@ Acompanhe o progresso do desenvolvimento:
 
 - [x] **Setup Inicial**: Estrutura base e limpeza de boilerplate.
 - [x] **Dashboard**: Header responsivo e cards com resumo de saldos (Entradas, Saídas, Total).
-- [ ] **Feed**: Listagem dinâmica de transações com filtros por tipo.
+- [x] **Feed**: Listagem dinâmica de transações com filtros por tipo.
 - [x] **Formulário**: Cadastro de novas transações via Modal acessível.
 - [x] **Persistência**: Salvamento automático de dados no `LocalStorage` do navegador.
 
