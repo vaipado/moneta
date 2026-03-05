@@ -5,6 +5,8 @@ import { Header } from './components/Header';
 import { Summary } from './components/Summary';
 import { TransactionsTable } from './components/TransactionsTable';
 import { EmptyState } from './components/EmptyState';
+import { CategoryChart } from './components/CategoryChart';
+import { TrendChart } from './components/TrendChart';
 import './index.css';
 
 Modal.setAppElement('#root');
@@ -16,7 +18,7 @@ export function App() {
   const [category, setCategory] = useState('Alimentação');
   const [type, setType] = useState('deposit');
   const [search, setSearch] = useState('');
-  
+
   const [transactions, setTransactions] = useState(() => {
     const storageTransactions = localStorage.getItem('@moneta:transactions');
 
@@ -26,8 +28,8 @@ export function App() {
     return [];
   });
 
-  useEffect(() => { 
-    localStorage.setItem('@moneta:transactions', JSON.stringify(transactions)); 
+  useEffect(() => {
+    localStorage.setItem('@moneta:transactions', JSON.stringify(transactions));
   }, [transactions]);
 
   function handleOpenNewTransactionModal() {
@@ -83,6 +85,11 @@ export function App() {
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
         <Summary transactions={transactions} />
 
+        <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+          <CategoryChart transactions={transactions} />
+          <TrendChart transactions={transactions} />
+        </div>
+
         <div className="search-container">
           <input
             type="text"
@@ -93,7 +100,7 @@ export function App() {
         </div>
 
         {transactions.length === 0 ? (
-          <EmptyState /> 
+          <EmptyState />
         ) : filteredTransactions.length > 0 ? (
           <TransactionsTable
             transactions={filteredTransactions}
