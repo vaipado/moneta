@@ -18,6 +18,7 @@ export function App() {
   const [category, setCategory] = useState('Alimentação');
   const [type, setType] = useState('deposit');
   const [search, setSearch] = useState('');
+  const [date, setDate] = useState('');
 
   const [transactions, setTransactions] = useState(() => {
     const storageTransactions = localStorage.getItem('@moneta:transactions');
@@ -42,6 +43,7 @@ export function App() {
     setValue('');
     setCategory('Alimentação');
     setType('deposit');
+    setDate('');
   }
 
   function handleDeleteTransaction(id) {
@@ -54,10 +56,13 @@ export function App() {
 
     const numericValue = Number(value);
 
-    if (title.trim() === '' || numericValue <= 0) {
-      alert("Por favor, preencha um título e um valor válido!");
+    if (title.trim() === '' || numericValue <= 0 || !date) {
+      alert("Por favor, preencha todos os campos corretamente!");
       return;
     }
+
+    const [year, month, day] = date.split('-');
+    const formattedDate = `${day}/${month}/${year}`;
 
     const newTransaction = {
       id: Math.random(),
@@ -65,14 +70,14 @@ export function App() {
       value: numericValue,
       category,
       type,
-      createdAt: new Date().toLocaleDateString('pt-BR')
+      createdAt: formattedDate
     };
 
     setTransactions([...transactions, newTransaction]);
     handleCloseNewTransactionModal();
   }
 
-  const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() !== '';
+  const isFormValid = title.trim() !== '' && Number(value) > 0 && category.trim() !== '' && date !== '';
 
   const filteredTransactions = transactions.filter(transaction =>
     transaction.title.toLowerCase().includes(search.toLowerCase())
@@ -141,6 +146,13 @@ export function App() {
             placeholder="Valor"
             value={value}
             onChange={event => setValue(event.target.value)}
+          />
+
+          <input
+            type="date"
+            value={date}
+            onChange={event => setDate(event.target.value)}
+            style={{ marginTop: '1rem' }}
           />
 
           <div className="transaction-type-container">
