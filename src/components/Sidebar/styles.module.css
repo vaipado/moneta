@@ -1,0 +1,44 @@
+.sidebar {
+  display: flex;
+  justify-content: center;
+}
+
+span{
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 20%;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.logo {
+  color: #000000;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.button {
+  background: #2e00ac;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #fff;
+  border: 0;
+  padding: 0 1rem;
+  border-radius: 100rem;
+  height: 3rem;
+  width: 12rem;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.button:hover {
+  filter: brightness(0.9);
+}

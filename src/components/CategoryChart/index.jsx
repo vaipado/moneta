@@ -21,71 +21,86 @@ export function CategoryChart({ transactions }) {
   const chartData = isEmpty ? [{ name: 'Sem dados', value: 1 }] : data;
 
   return (
-    <div style={{ 
-      background: '#fff', 
-      borderRadius: '0.25rem', 
-      padding: '1.5rem', 
-      flex: 1, 
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    <div style={{
+      background: '#fff',
+      height: '100%',
+      borderRadius: '15px',
+      padding: '1.5rem',
+      border: 'solid #00000018 2px',
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column', // Mantém o título no topo
+      gap: '1rem'
     }}>
-      <h3 style={{ marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500, color: '#363f5f' }}>Gastos por Categoria</h3>
-      
-      <div style={{ width: '100%', height: 250, position: 'relative' }}>
-        <ResponsiveContainer>
-          <PieChart style={{ zIndex: 10 }}>
-            <Pie
-              data={chartData}
-              innerRadius={70}
-              outerRadius={90}
-              paddingAngle={4} 
-              cornerRadius={4}
-              dataKey="value"
-              stroke="none"
-            >
-              {isEmpty 
-                ? <Cell fill="#e7e9ee" />
-                : chartData.map((entry) => <Cell key={entry.name} fill={COLORS[entry.name]} />)
-              }
-            </Pie>
-            {!isEmpty && (
-              <Tooltip 
-                wrapperStyle={{ zIndex: 100 }}
-                contentStyle={{ borderRadius: '0.25rem', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-                formatter={(val) => `R$ ${val.toFixed(2)}`} 
-              />
-            )}
-          </PieChart>
-        </ResponsiveContainer>
+      <h3 style={{ fontSize: '1.1rem', fontWeight: 500, color: '#363f5f' }}>Gastos por Categoria</h3>
 
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
-          pointerEvents: 'none',
-          zIndex: 1
-        }}>
-          <span style={{ display: 'block', fontSize: '0.875rem', color: '#969cb3' }}>Total</span>
-          <strong style={{ fontSize: '1.25rem', color: '#363f5f' }}>
-            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalWithdrawals)}
-          </strong>
+      <div style={{
+        display: 'flex',      // Novo container flex para alinhar gráfico e legenda LADO A LADO
+        alignItems: 'center',
+        flex: 1,
+        width: '100%',
+        gap: '1rem'
+      }}>
+
+        {/* Container do Gráfico */}
+        <div style={{ width: '60%', height: '100%', position: 'relative' }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={chartData}
+                innerRadius={50}
+                outerRadius={70}
+                paddingAngle={3}
+                cornerRadius={4}
+                dataKey="value"
+                stroke="none"
+              >
+                {isEmpty
+                  ? <Cell fill="#e7e9ee" />
+                  : chartData.map((entry) => <Cell key={entry.name} fill={COLORS[entry.name]} />)
+                }
+              </Pie>
+              {!isEmpty && <Tooltip /* ...mesmas props... */ />}
+            </PieChart>
+          </ResponsiveContainer>
+
+          {/* Texto do Centro */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            pointerEvents: 'none'
+          }}>
+            <span style={{ display: 'block', fontSize: '0.7rem', color: '#969cb3' }}>Total</span>
+            <strong style={{ fontSize: '0.8rem', color: '#363f5f' }}>
+              {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalWithdrawals)}
+            </strong>
+          </div>
         </div>
+
+        {/* Container da Legenda (Agora ao Lado) */}
+        {!isEmpty && (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr', // Uma coluna para empilhar verticalmente
+            gap: '0.4rem',
+            flex: 1
+          }}>
+            {data.map(item => (
+              <div key={item.name} style={{ display: 'flex', alignItems: 'center', fontSize: '0.75rem' }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: COLORS[item.name], marginRight: 6 }} />
+                <span style={{ color: '#969cb3', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {item.name}
+                </span>
+                <strong style={{ color: '#363f5f', marginLeft: '4px' }}>
+                  {Math.round((item.value / totalWithdrawals) * 100)}%
+                </strong>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-
-      {!isEmpty && (
-        <div style={{ marginTop: '1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-          {data.map(item => (
-            <div key={item.name} style={{ display: 'flex', alignItems: 'center', fontSize: '0.8rem' }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: COLORS[item.name], marginRight: 8 }} />
-              <span style={{ color: '#969cb3', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</span>
-              <strong style={{ color: '#363f5f', marginLeft: '4px' }}>{Math.round((item.value / totalWithdrawals) * 100)}%</strong>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

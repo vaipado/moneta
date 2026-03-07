@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { FiArrowUpCircle, FiArrowDownCircle } from 'react-icons/fi';
+import { FaGithubSquare, FaLinkedin } from "react-icons/fa";
 import Modal from 'react-modal';
-import { Header } from './components/Header';
+import { Sidebar } from './components/Sidebar';
 import { Summary } from './components/Summary';
 import { TransactionsTable } from './components/TransactionsTable';
 import { EmptyState } from './components/EmptyState';
@@ -12,32 +13,35 @@ import './index.css';
 Modal.setAppElement('#root');
 
 export function App() {
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false); // Controla o modal
+  const [search, setSearch] = useState(''); // Controla a pesquisa
+  // Valor padrão dos inputs
   const [title, setTitle] = useState('');
   const [value, setValue] = useState('');
   const [category, setCategory] = useState('Alimentação');
   const [type, setType] = useState('deposit');
-  const [search, setSearch] = useState('');
   const [date, setDate] = useState('');
 
   const [transactions, setTransactions] = useState(() => {
-    const storageTransactions = localStorage.getItem('@moneta:transactions');
+    const storageTransactions = localStorage.getItem('@moneta:transactions'); // Busca oque ja estava salvo no localStorage
 
-    if (storageTransactions) {
-      return JSON.parse(storageTransactions);
-    }
-    return [];
+    if (storageTransactions) { // Se há conteúdo na variável...
+      return JSON.parse(storageTransactions); // Retorna transformando string em objeto manipulável
+    } // Se não...
+    return []; // Retorna um array vazio
   });
 
-  useEffect(() => {
-    localStorage.setItem('@moneta:transactions', JSON.stringify(transactions));
+  useEffect(() => { // useEffect executa a função anônima quando 'transactions' muda
+    localStorage.setItem('@moneta:transactions', JSON.stringify(transactions)) // Salva o conteúdo do 'transactions' no localStorage (a alternativa que usei para simular um banco de dados simples)
   }, [transactions]);
 
-  function handleOpenNewTransactionModal() {
+  // JSON.stringify(transactions) - como o localStorage recebe apenas strings simples, eu transformo o objeto manipulável em string
+
+  function handleOpenNewTransactionModal() { // Função para abrir o modal (mudar o valor da isNewTransactionModalOpen para true)
     setIsNewTransactionModalOpen(true);
   }
 
-  function handleCloseNewTransactionModal() {
+  function handleCloseNewTransactionModal() { // Função para fechar o modal (mudar o valor da useState para false e 'resetar' os valores dos inputs)
     setIsNewTransactionModalOpen(false);
     setTitle('');
     setValue('');
@@ -46,9 +50,10 @@ export function App() {
     setDate('');
   }
 
-  function handleDeleteTransaction(id) {
-    const updatedTransactions = transactions.filter(transaction => transaction.id !== id);
-    setTransactions(updatedTransactions);
+  function handleDeleteTransaction(id) { // Função para deletar transações pelo seu id específico
+    const updatedTransactions = transactions.filter(transaction => transaction.id !== id); // Variável responsável por guardar o novo array gerado
+    // transactions.filter(transaction => transaction.id !== id) - percorre o array mantendo apenas os itens que atendem a condição determinada
+    setTransactions(updatedTransactions); // Garante que o React redenrize a mudança na 'transactions'
   }
 
   function handleCreateNewTransaction(event) {
@@ -84,27 +89,38 @@ export function App() {
   );
 
   return (
-    <>
-      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
+    <div className="wrapper">
+      <Sidebar onOpenNewTransactionModal={handleOpenNewTransactionModal} />
 
-      <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 1rem' }}>
-        <Summary transactions={transactions} />
+      <main className="main-container">
+        <div className="dashboard-grid">
+          { }
+          <div className="grid-summary">
+            <Summary transactions={transactions} />
+          </div>
 
-        <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-          <CategoryChart transactions={transactions} />
-          <TrendChart transactions={transactions} />
-        </div>
+          { }
+          <div className="grid-category-chart">
+            <CategoryChart transactions={transactions} />
+          </div>
 
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Pesquisar por título..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+          { }
+          <div className="grid-trend-chart">
+            <TrendChart transactions={transactions} />
+          </div>
 
-        {transactions.length === 0 ? (
+          { }
+          <div className="grid-transactions">
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Pesquisar..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <div className="table-wrapper">
+              {transactions.length === 0 ? (
           <EmptyState />
         ) : filteredTransactions.length > 0 ? (
           <TransactionsTable
@@ -116,6 +132,22 @@ export function App() {
             <p>Nenhuma transação encontrada com o termo <strong>"{search}"</strong>.</p>
           </div>
         )}
+            </div>
+          </div>
+        </div>
+
+        { }
+
+        <footer className="footer">
+          <div>
+            <p className="copyright">Copyright &copy; 2026 Carlos Godinho</p>
+            <p>Contato</p>
+          </div>
+          <div className="social-icons">
+            <FaGithubSquare size={25} />
+            <FaLinkedin size={25} />
+          </div>
+        </footer>
       </main>
 
       <Modal
@@ -198,7 +230,7 @@ export function App() {
           </button>
         </form>
       </Modal>
-    </>
+    </div>
   );
 }
 

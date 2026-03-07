@@ -1,34 +1,60 @@
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: -5rem; /* faz os cards "entrarem" no Header roxo */
+  gap: 1rem;
+  height: 100%;
 }
 
 .container div {
+  padding: 1.5rem;
+  /* Reduzido levemente para ganhar espaço */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.card {
   background: #fff;
-  padding: 1.5rem 2rem;
-  border-radius: 0.25rem;
   color: #363f5f;
+  border: solid #00000018 2px;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.card div {
+  padding: 0;
+  height: 40%;
+}
+
+.totalRed{
+  background-color: rgba(255, 0, 0, 0.075);
+  color: red;
+  border: solid #00000018 2px;
+  height: 100%;
+  border-radius: 15px;
+}
+
+.totalGreen{
+  background-color: rgba(43, 255, 0, 0.075);
+  color: rgb(27, 162, 0);
+  border: solid #00000018 2px;
+  height: 100%;
+  border-radius: 15px;
 }
 
 .container div header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .container div strong {
-  display: block;
-  margin-top: 1rem;
-  font-size: 2rem;
-  font-weight: 500;
-  line-height: 3rem;
-}
-
-.container .highlightBackground {
-  background: #33cc95;
-  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  /* Impede que o valor quebre em duas linhas */
+  overflow: hidden;
+  /* Esconde o que sobrar */
 }
 
 .withdraw {

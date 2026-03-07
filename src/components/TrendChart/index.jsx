@@ -1,12 +1,12 @@
-import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  Legend 
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend
 } from 'recharts';
 
 const monthNames = [
@@ -19,7 +19,7 @@ export function TrendChart({ transactions }) {
     .reduce((acc, t) => {
       const [day, month, year] = t.createdAt.split('/');
       const monthKey = `${month}/${year}`;
-      
+
       const found = acc.find(item => item.monthKey === monthKey);
 
       if (found) {
@@ -42,77 +42,79 @@ export function TrendChart({ transactions }) {
     });
 
   return (
-    <div style={{ 
-      background: '#fff', 
-      borderRadius: '0.25rem', 
-      padding: '1.5rem', 
-      flex: 2, 
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-      minWidth: '320px' 
+    <div style={{
+      background: '#fff',
+      borderRadius: '15px',
+      padding: '1.5rem 1.5rem 3rem 1.5rem',
+      border: 'solid #00000018 2px',
+      width: '100%', 
+      height: '100%',
+      maxWidth: '100%',
+      maxHeight: '420.6px'
     }}>
-      <h3 style={{ marginBottom: '1.5rem', fontSize: '1.1rem', fontWeight: 500, color: '#363f5f' }}>Fluxo Mensal</h3>
-      <div style={{ width: '100%', height: 280 }}>
+      <h3 style={{ fontSize: '1.1rem', fontWeight: 500, color: '#363f5f' }}>Fluxo Mensal</h3>
+      <div style={{ width: '100%', height: '100%', }}>
         <ResponsiveContainer>
-          <AreaChart data={data} margin={{ left: -20 }}>
+          <AreaChart data={data} margin={{ left: 0 }}>
             <defs>
               <linearGradient id="colorDeposits" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#33cc95" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="#33cc95" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#33cc95" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#33cc95" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorWithdrawals" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#e52e4d" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="#e52e4d" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#e52e4d" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#e52e4d" stopOpacity={0} />
               </linearGradient>
             </defs>
-            
+
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f2f5" />
-            
-            <XAxis 
-              dataKey="displayMonth" 
-              axisLine={false} 
-              tickLine={false} 
+
+            <XAxis
+              dataKey="displayMonth"
+              axisLine={false}
+              tickLine={false}
               tick={{ fill: '#969cb3', fontSize: 12 }}
               dy={10}
             />
-            
-            <YAxis 
+
+            <YAxis
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#969cb3', fontSize: 10 }}
               tickFormatter={(value) => `R$ ${value}`}
               width={80}
             />
-            
-            <Tooltip 
+
+            <Tooltip
               cursor={{ stroke: '#f0f2f5', strokeWidth: 2 }}
-              contentStyle={{ 
-                borderRadius: '0.5rem', 
-                border: 'none', 
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' 
+              contentStyle={{
+                borderRadius: '0.5rem',
+                border: 'none',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
               }}
               formatter={(val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val)}
             />
-            
-            <Legend verticalAlign="top" align="right" iconType="circle" height={40}/>
-            
-            <Area 
+
+            <Legend verticalAlign="top" align="right" iconType="circle" height={40} />
+
+            <Area
               name="Entradas"
-              type="monotone" 
-              dataKey="deposits" 
-              stroke="#33cc95" 
+              type="monotone"
+              dataKey="deposits"
+              stroke="#33cc95"
               strokeWidth={3}
-              fillOpacity={1} 
-              fill="url(#colorDeposits)" 
+              fillOpacity={1}
+              fill="url(#colorDeposits)"
             />
-            
-            <Area 
+
+            <Area
               name="Saídas"
-              type="monotone" 
-              dataKey="withdrawals" 
-              stroke="#e52e4d" 
+              type="monotone"
+              dataKey="withdrawals"
+              stroke="#e52e4d"
               strokeWidth={3}
-              fillOpacity={1} 
-              fill="url(#colorWithdrawals)" 
+              fillOpacity={1}
+              fill="url(#colorWithdrawals)"
             />
           </AreaChart>
         </ResponsiveContainer>

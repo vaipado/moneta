@@ -1,56 +1,66 @@
-.container {
-  margin-top: 4rem;
-}
-
-table {
+.container table {
   width: 100%;
-  border-spacing: 0 0.5rem;
+  border-spacing: 0 0.5rem; /* Cria o espaço entre os "cards" */
 }
 
-th {
+.container th {
   color: #969cb3;
+  font-size: 0.7rem;
   font-weight: 400;
-  padding: 1rem 2rem;
+  padding: 0.6rem 1.3rem;
   text-align: left;
-  line-height: 1.5rem;
+  line-height: 1rem;
 }
 
-td {
-  padding: 1rem 2rem;
+.container td {
+  font-size: 0.7rem;
+  padding: 0.5rem 0.5rem;
   border: 0;
-  background: #fff;
+  background: #fdfdfd; /* Fundo branco para cada card */
   color: #969cb3;
-  border-radius: 0.25rem;
 }
 
-td:first-child {
-  color: #363f5f;
+/* Arredondamento dos cantos do "card" */
+.container td:first-child {
+  border-radius: 0.25rem 0 0 0.25rem;
+  color: #363f5f; /* Título com mais destaque */
+}
+
+.container td:last-child {
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 
 .deposit {
-  color: #33cc95;
+  color: #33cc95 !important;
 }
 
 .withdraw {
-  color: #e52e4d;
+  color: #e52e4d !important;
+}
+
+.categoryBadge {
+  background: #f0f2f5;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  color: #969cb3;
 }
 
 .deleteButton {
   background: transparent;
-  border: 0;
-  color: #969cb3;
-  cursor: pointer;
-  transition: color 0.2s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid #e52e4d;
+  color: #e52e4d;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  font-size: 0.7rem;
 }
 
 .deleteButton:hover {
-  color: #e52e4d;
-  transform: scale(1.1);
+  background: #e52e4d;
+  color: #fff;
 }
 
-td:last-child {
-  width: 50px;
+.container table {
+  width: 100%;
+  border-spacing: 0 0.25rem; /* Espaço entre cards reduzido de 0.5rem para 0.25rem */
 }

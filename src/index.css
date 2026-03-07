@@ -6,10 +6,10 @@
 }
 
 body {
-  background: #f0f2f5;
+  background: #f8faf9;
   color: #363f5f;
-  font-family: 'Poppins', sans-serif, system-ui;
   -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
 /* --- Modal Layout --- */
@@ -71,7 +71,7 @@ body {
   color: #969cb3;
 }
 
-.modal-form input + input,
+.modal-form input+input,
 .modal-form select {
   margin-top: 1rem;
 }
@@ -113,30 +113,30 @@ body {
 
 /* Active States */
 .transaction-type-container button.active-deposit {
-  background: rgba(51, 204, 149, 0.1); 
+  background: rgba(51, 204, 149, 0.1);
   border-color: #33cc95;
 }
 
 .transaction-type-container button.active-withdraw {
-  background: rgba(229, 46, 77, 0.1); 
+  background: rgba(229, 46, 77, 0.1);
   border-color: #e52e4d;
 }
 
 /* --- Search Component --- */
 .search-container {
-  margin-top: 2rem;
-  width: 100%;
+  width: 12rem;
 }
 
 .search-container input {
   width: 100%;
   height: 3.5rem;
   padding: 0 1.5rem;
-  border-radius: 0.25rem;
+  border-radius: 100rem;
   border: 1px solid #d7d7d7;
   background: #fff;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.7s;
+  font-size: 0.7rem;
 }
 
 .search-not-found {
@@ -155,7 +155,7 @@ body {
   height: 4rem;
   padding: 0 1.5rem;
   margin-top: 1.5rem;
-  background: #33cc95; 
+  background: #33cc95;
   color: #fff;
   border-radius: 0.25rem;
   border: 0;
@@ -192,7 +192,7 @@ body {
 .modal-form input:focus,
 .search-container input:focus {
   border-color: #b4b4b4;
-  box-shadow: 0 0 0 4px rgba(174, 174, 174, 0.15); 
+  box-shadow: 0 0 0 4px rgba(174, 174, 174, 0.15);
 }
 
 .modal-form select:focus {
@@ -213,4 +213,93 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* Div Principal do layout*/
+.wrapper {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  /* Separa a tela em duas colunas: Sidebar fixa e o restante da tela */
+  overflow: hidden;
+  background-color: rgb(200, 200, 200);
+  height: 100vh;
+}
+
+/* Guarda todas as ferramentas para visualização de dados */
+.main-container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: hidden;
+  border-radius: 15px 0 0 15px;
+  height: 100%;
+  gap: 1rem;
+}
+
+/* Div pai de todo o grid do conteúdo do main */
+.dashboard-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 500px;
+  grid-template-rows: 12rem repeat(6, 1fr);
+  gap: 1rem;
+}
+
+/* Posicionamento dos blocos conforme a imagem */
+.grid-summary {
+  grid-column: 1 / 4;
+  /* Ocupa as 3 primeiras colunas superiores */
+}
+
+.grid-category-chart {
+  grid-column: 4 / 5;
+  /* Coluna da direita superior */
+  grid-row: 1 / 3;
+}
+
+.grid-trend-chart {
+  grid-column: 1 / 4;
+  /* Grande área central para o gráfico de linha */
+  grid-row: 2 / 8;
+}
+
+.grid-transactions {
+  grid-column: 4 / 5;
+  grid-row: 3 / 8;
+  display: flex;
+  flex-direction: column;
+  border: solid #00000018 2px;
+  border-radius: 1rem;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Garante que a tabela tenha scroll interno se houver muitos itens */
+.table-wrapper {
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 100;
+  font-size: 0.8rem;
+  color: rgb(108, 108, 108);
+}
+
+.footer div {
+  display: flex;
+  gap: 2rem;
+}
+
+.social-icons {
+  gap: 1rem !important;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-left: 10px;
 }
